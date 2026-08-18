@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        "mem0-mcp": {
+            "serverUrl": "https://mcp.mem0.ai/mcp",
+            "headers": {
+                "Authorization": "Token m0-fgK8t3duaWYQT01ftnXGgNPpQv5Or97F455xqRqo"
+            }
+        }
+    }
+}

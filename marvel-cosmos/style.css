@@ -1,0 +1,386 @@
+/* CSS Değişkenleri - Tema Renkleri */
+:root {
+    --bg-color: #050510;
+    --text-primary: #f0f0f5;
+    --text-secondary: #9ba1b0;
+    
+    /* Faz Renkleri - HSL (Canlı ve Neon) */
+    --phase1: rgb(0, 150, 255); /* Mavi */
+    --phase2: rgb(120, 0, 255); /* Mor */
+    --phase3: rgb(255, 0, 150); /* Pembe/Magenta */
+    --phase4: rgb(0, 255, 200); /* Turkuaz */
+    --phase5: rgb(180, 100, 255); /* Açık Mor */
+    --phase6: rgb(255, 200, 255); /* Beyaz/Pembe (Yaklaşan) */
+    
+    /* Bağlantı Tipleri */
+    --direct: rgba(255, 255, 255, 0.8);
+    --crossover: rgba(169, 107, 255, 0.6);
+    --event: rgba(0, 195, 255, 0.6);
+    --postcredit: rgba(255, 0, 102, 0.6);
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(15, 15, 30, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow: hidden; /* 3D Canvas için kaydırmayı kapat */
+}
+
+/* 3D Container */
+#3d-graph {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+}
+
+/* UI Katmanı - Graph'ın üzerinde durur */
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none; /* UI katmanı arkasındaki graph'a tıklanabilmesi için */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+/* Tüm UI elemanlarının tıklanabilir olması için */
+.header, .legend-panel, #node-info {
+    pointer-events: auto; 
+}
+
+/* Başlık Alanı */
+.header {
+    text-align: left;
+}
+
+h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.glow-text {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+/* Glassmorphism Paneller */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --- Lejant Aç/Kapa Butonları --- */
+#legend-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background: rgba(20, 20, 30, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 101;
+    display: block;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+#legend-toggle-btn:hover {
+    background: rgba(40, 40, 60, 0.85);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #fff;
+}
+
+/* Lejant (Sol Alt) */
+.legend-panel {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 30px;
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+.legend-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 768px) {
+    #node-info {
+        width: calc(100% - 40px);
+        max-height: 50vh;
+        bottom: 10px;
+        right: 20px;
+        left: 20px;
+    }
+    .legend-panel {
+        flex-direction: column;
+        gap: 15px;
+        bottom: 70px;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+    .legend-column h3 {
+        font-size: 0.8rem;
+    }
+    .legend-column li {
+        font-size: 0.75rem;
+    }
+}
+
+.legend-column h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.legend-column ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+}
+
+.legend-column li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Noktalar ve Çizgiler */
+.dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px currentColor;
+}
+
+.dot.phase1 { background-color: var(--phase1); color: var(--phase1); }
+.dot.phase2 { background-color: var(--phase2); color: var(--phase2); }
+.dot.phase3 { background-color: var(--phase3); color: var(--phase3); }
+.dot.phase4 { background-color: var(--phase4); color: var(--phase4); }
+.dot.phase5 { background-color: var(--phase5); color: var(--phase5); }
+.dot.phase6 { background-color: var(--phase6); color: var(--phase6); }
+
+.line {
+    display: inline-block;
+    width: 25px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+.type-direct { background-color: var(--direct); height: 4px; }
+.type-crossover { background-color: var(--crossover); }
+.type-event { background-color: var(--event); }
+.type-postcredit { background-color: var(--postcredit); border-top: 2px dashed var(--postcredit); background: transparent;}
+
+.node-types {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Node Info Paneli (Sağ Alt veya Tıklanınca Beliren) */
+#node-info {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 300px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#node-info.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+#node-info h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+#node-info .phase-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+#node-info .details {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Tooltip (Graph Üzerindeki İpucu) */
+.custom-tooltip {
+    background: rgba(10, 10, 20, 0.85) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+    font-family: 'Inter', sans-serif !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.9rem !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+    width: 320px !important;
+    max-width: 90vw !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+/* Bağlantı (Sinaps) Listesi CSS */
+.connections-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    color: #fff;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 4px;
+}
+
+.connections-list {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding-right: 5px;
+}
+
+/* Scrollbar özelleştirme */
+.connections-list::-webkit-scrollbar { width: 4px; }
+.connections-list::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+.connections-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+.connection-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    padding: 8px 10px;
+    transition: background 0.2s;
+}
+
+.connection-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.connection-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    color: #e0e0e0;
+}
+
+.connection-icon {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.connection-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Kapak Fotoğrafı CSS */
+.node-cover-container {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.node-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    transition: transform 0.3s ease;
+}
+
+.node-cover:hover {
+    transform: scale(1.05);
+}
+
+/* Animasyonlar */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}

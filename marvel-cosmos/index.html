@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCU Cosmos - Sinaps Haritası</title>
+    
+    <!-- SEO & Meta -->
+    <meta name="description" content="Marvel Sinematik Evreni'nin (MCU) filmleri ve dizileri arasındaki tüm bağlantıları interaktif bir 3D uzay haritasında keşfedin.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css?v=6">
+    
+    <!-- 3D Force Graph Library (Three.js Global Build) -->
+    <script src="https://unpkg.com/three@0.136.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three-spritetext"></script>
+    <script src="https://unpkg.com/3d-force-graph@1.73.3/dist/3d-force-graph.min.js"></script>
+</head>
+<body>
+    <!-- Arka plan yıldız efekti için container -->
+    <div id="stars-container"></div>
+    
+    <!-- Arayüz Üst Katman -->
+    <div id="ui-layer">
+        <header class="header">
+            <h1 class="glow-text">MARVEL SİNEMATİK EVRENİ</h1>
+            <p class="subtitle">Sinaps Haritası — Fare ile döndürün, yakınlaşın</p>
+        </header>
+
+        <!-- Lejant Paneli -->
+        <div id="legend-toggle-btn" class="glass-btn">ℹ️ Lejant</div>
+        <aside class="legend-panel glass-panel" id="legend-panel">
+            <button id="legend-close-btn" class="close-btn">&times;</button>
+            <div class="legend-content">
+                <div class="legend-column">
+                <h3>FAZLAR</h3>
+                <ul id="legend-phases">
+                    <li><span class="dot phase1"></span> Faz 1</li>
+                    <li><span class="dot phase2"></span> Faz 2</li>
+                    <li><span class="dot phase3"></span> Faz 3</li>
+                    <li><span class="dot phase4"></span> Faz 4</li>
+                    <li><span class="dot phase5"></span> Faz 5</li>
+                    <li><span class="dot phase6"></span> Yaklaşanlar</li>
+                </ul>
+            </div>
+            <div class="legend-column">
+                <h3>BAĞLANTI TİPLERİ</h3>
+                <ul id="legend-links">
+                    <li><span class="line type-direct"></span> Doğrudan Devam</li>
+                    <li><span class="line type-crossover"></span> Karakter Geçişi</li>
+                    <li><span class="line type-event"></span> Olay / Sonuç Bağı</li>
+                    <li><span class="line type-postcredit"></span> Sahne Sonu Tohum</li>
+                </ul>
+                <div class="node-types">
+                    <span class="node-icon">● Film</span>
+                    <span class="node-icon">◆ Dizi</span>
+                </div>
+            </div>
+            </div> <!-- End legend-content -->
+        </aside>
+        
+        <!-- Sağ Üstte Arama (Eklenecekse buraya) -->
+        
+        <div id="node-info" class="glass-panel hidden">
+            <!-- Tıklanan düğüm bilgileri buraya gelecek -->
+        </div>
+    </div>
+
+    <!-- 3D Grafiğin Render Edileceği Alan -->
+    <div id="3d-graph"></div>
+
+    <!-- JS Mantığı -->
+    <script src="data.js?v=7"></script>
+    <script src="app.js?v=7"></script>
+</body>
+</html>
