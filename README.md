@@ -18,7 +18,11 @@ MCU filmleri ve dizileri arasındaki tüm bağlantıları 3 boyutlu, interaktif 
 ---
 ## Sürüm Geçmişi (Changelog)
 
-### v1.0.0 (Güncel)
+### v1.1.0 (Güncel)
+- **Stan Lee Nebula (Easter Egg)** eklendi. Evrenden uzaklaşıldığında uzayın derinliklerinde beliren ve yavaşça parlayan devasa, maskelenmiş bir Stan Lee bulutsusu oluşturuldu.
+- **Dinamik Arka Plan Yıldızları:** Arka plan yıldız sayısı (starField) 3000'den 12000'e çıkarılarak evrenin çok daha yoğun ve gerçekçi görünmesi sağlandı.
+
+### v1.0.0
 - **Canlı Arama (Live Search)** özelliği eklendi. Haritadaki filmler artık isimlerine göre aranıp anında bulunabiliyor.
 - **Zaman Kodları (Timecodes)** eklendi. Kritik geçişler dakika/saniye olarak sağ alt panelde ve ipuçlarında gösteriliyor.
 - **Lejant Tasarımı** yenilendi ve tıklanabilirlik sorunları (z-index çakışmaları) giderildi.

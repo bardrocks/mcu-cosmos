@@ -166,7 +166,7 @@ const scene = Graph.scene();
 
 // Arka plan yıldızları (Nokta bulutu)
 const starsGeometry = new THREE.BufferGeometry();
-const starsCount = 3000;
+const starsCount = 12000; // Sayfanın geri kalanını doldurmak için yıldız sayısını arttırdık
 const positions = new Float32Array(starsCount * 3);
 const colors = new Float32Array(starsCount * 3);
 
@@ -233,6 +233,56 @@ function createNebula() {
     }
 }
 createNebula();
+
+// --- Stan Lee Nebula (Easter Egg) ---
+let stanLeeSprite = null;
+
+const textureLoader = new THREE.TextureLoader();
+textureLoader.load('stan_lee_nebula_masked.jpg', (texture) => {
+    const slMaterial = new THREE.SpriteMaterial({
+        map: texture,
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.0, // Başlangıçta görünmez
+        blending: THREE.AdditiveBlending, // Siyah kısımları tamamen görünmez yapar (Dikdörtgen çerçeveyi yok eder!)
+        depthWrite: false
+    });
+    
+    stanLeeSprite = new THREE.Sprite(slMaterial);
+    
+    // Fotoğrafı devasa boyutlara getirip uzayın derinliklerine yerleştiriyoruz
+    stanLeeSprite.scale.set(5000, 5000, 1); 
+    
+    // Kameranın merkezinin çok arkasında (negatif Z)
+    stanLeeSprite.position.set(0, 0, -3500); 
+    
+    scene.add(stanLeeSprite);
+}, undefined, (err) => {
+    console.error("Stan Lee Nebula resmi yüklenemedi:", err);
+});
+
+// Sürekli çalışan döngü (Sadece kamera zoom mesafesine göre Opacity ayarlamak için)
+function updateConstellation() {
+    requestAnimationFrame(updateConstellation);
+    
+    if (typeof Graph !== 'undefined' && Graph.cameraPosition && stanLeeSprite && typeof starField !== 'undefined') {
+        const cam = Graph.cameraPosition();
+        if (cam) {
+            // Kamera'nın (0,0,0) merkezine uzaklığı
+            const dist = Math.sqrt(cam.x*cam.x + cam.y*cam.y + cam.z*cam.z);
+            
+            // 900'ü geçince belirmeye başlasın
+            let slTargetOpacity = 0;
+            if (dist > 900) {
+                slTargetOpacity = Math.min(0.9, (dist - 900) / 700);
+            }
+            stanLeeSprite.material.opacity += (slTargetOpacity - stanLeeSprite.material.opacity) * 0.05;
+            
+            // Arka plan yıldızları (starField) artık sönümlenmiyor, böylece ekran boş kalmıyor.
+        }
+    }
+}
+updateConstellation();
 
 // Kamera başlangıç pozisyonu
 setTimeout(() => {
