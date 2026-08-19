@@ -119,8 +119,33 @@ const Graph = ForceGraph3D()
                 const isSource = l.source.id === node.id;
                 const otherNode = isSource ? l.target.id : l.source.id;
                 const direction = isSource ? "Giden" : "Gelen";
+                
+                let timecodeHTML = "";
+                if (l.timecodes) {
+                    const sourceTime = l.timecodes.sourceTime;
+                    const targetTime = l.timecodes.targetTime;
+                    if (isSource) {
+                        timecodeHTML = `<div class="timecodes-container">
+                            <span class="timecode-badge">${sourceTime}</span> 
+                            <span class="timecode-arrow">➔</span> 
+                            <span class="timecode-badge">${targetTime}</span>
+                        </div>`;
+                    } else {
+                        timecodeHTML = `<div class="timecodes-container">
+                            <span class="timecode-badge">${targetTime}</span> 
+                            <span class="timecode-arrow">➔</span> 
+                            <span class="timecode-badge">${sourceTime}</span>
+                        </div>`;
+                    }
+                } else {
+                    timecodeHTML = `<div class="timecodes-container">
+                        <span class="timecode-badge" style="background:rgba(100,100,100,0.2); color:#aaa; border-color:rgba(100,100,100,0.4);">Zaman Kodu Yok</span>
+                    </div>`;
+                }
+
                 tooltipHTML += `<div style="font-size:12px; margin-top:8px; line-height: 1.4; color: #ddd; white-space: normal;">
                     <strong style="color:#aaa;">${direction} (${otherNode}):</strong> ${l.description || 'Bağlantı'}
+                    ${timecodeHTML}
                 </div>`;
             });
 
@@ -230,7 +255,7 @@ legendToggleBtn.addEventListener('click', () => {
 
 legendCloseBtn.addEventListener('click', () => {
     legendPanel.classList.remove('active');
-    legendToggleBtn.style.display = 'block';
+    legendToggleBtn.style.display = 'flex';
 });
 
 function showNodeInfo(node) {
@@ -262,6 +287,29 @@ function showNodeInfo(node) {
             const icon = isSource ? '→' : '←';
             const colorClass = `type-${l.type}`; // CSS için (type-direct, type-event vb.)
             
+            let timecodeHTML = "";
+            if (l.timecodes) {
+                const sourceTime = l.timecodes.sourceTime;
+                const targetTime = l.timecodes.targetTime;
+                if (isSource) {
+                    timecodeHTML = `<div class="timecodes-container" style="margin-top: 8px;">
+                        <span class="timecode-badge">${sourceTime}</span> 
+                        <span class="timecode-arrow">➔</span> 
+                        <span class="timecode-badge">${targetTime}</span>
+                    </div>`;
+                } else {
+                    timecodeHTML = `<div class="timecodes-container" style="margin-top: 8px;">
+                        <span class="timecode-badge">${targetTime}</span> 
+                        <span class="timecode-arrow">➔</span> 
+                        <span class="timecode-badge">${sourceTime}</span>
+                    </div>`;
+                }
+            } else {
+                timecodeHTML = `<div class="timecodes-container" style="margin-top: 8px;">
+                    <span class="timecode-badge" style="background:rgba(100,100,100,0.2); color:#aaa; border-color:rgba(100,100,100,0.4);">Zaman Kodu Yok</span>
+                </div>`;
+            }
+
             connectionsHTML += `
                 <div class="connection-item">
                     <div class="connection-header">
@@ -269,6 +317,7 @@ function showNodeInfo(node) {
                         <strong>${otherNode}</strong>
                     </div>
                     <div class="connection-desc">${l.description || 'Bilinmeyen bağlantı.'}</div>
+                    ${timecodeHTML}
                 </div>
             `;
         });
@@ -312,3 +361,61 @@ setInterval(() => {
     // });
     // angle += Math.PI / 5000;
 }, 50);
+
+// --- ARAMA İŞLEVİ (SEARCH) ---
+const searchInput = document.getElementById('search-input');
+const searchBtn = document.getElementById('search-btn');
+const searchResults = document.getElementById('search-results');
+
+function performSearch() {
+    const query = searchInput.value.toLowerCase().trim();
+    if (!query) {
+        searchResults.classList.add('hidden');
+        return;
+    }
+
+    // Graph'ın içindeki render edilmiş düğümleri bul.
+    const matches = mcuData.nodes.filter(n => n.id.toLowerCase().includes(query));
+    
+    searchResults.innerHTML = '';
+    if (matches.length === 0) {
+        searchResults.innerHTML = '<div style="color: #aaa; font-size: 0.85rem;">Sonuç bulunamadı.</div>';
+        searchResults.classList.remove('hidden');
+        return;
+    }
+
+    matches.forEach(node => {
+        const item = document.createElement('div');
+        item.className = 'search-result-item';
+        item.textContent = node.id;
+        item.onclick = () => {
+            // Yıldıza yaklaş
+            const distance = 100;
+            const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+            Graph.cameraPosition(
+                { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, 
+                node, 
+                2000
+            );
+            // Paneli aç
+            showNodeInfo(node);
+            
+            // Arama sonuçlarını gizle
+            searchResults.classList.add('hidden');
+            searchInput.value = '';
+        };
+        searchResults.appendChild(item);
+    });
+    
+    searchResults.classList.remove('hidden');
+}
+
+searchBtn.addEventListener('click', performSearch);
+searchInput.addEventListener('input', performSearch);
+
+// Arama kutusu dışına tıklandığında sonuçları gizle
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#search-container') && !e.target.closest('#search-results')) {
+        searchResults.classList.add('hidden');
+    }
+});

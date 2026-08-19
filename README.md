@@ -15,18 +15,14 @@ MCU filmleri ve dizileri arasındaki tüm bağlantıları 3 boyutlu, interaktif 
   Daha sonra tarayıcıda `http://localhost:8282` adresine gidebilirsiniz.
 - **Mevcut Özellikler:** Fazlara göre renklendirilmiş yıldızlar (düğümler), her düğümün üstünde yapım isimleri, bağlantı tiplerine göre hareketli enerji akışları (sinapslar) ve yavaşça dönen bir galaksi modeli.
 
-## 2. Mem0 AI Entegrasyonu
-Yapay zeka (LLM) projeleri için kullanıcı belleği (memory) sağlayan `mem0` kütüphanesinin temel kurulumu. 
-- **Klasör:** Kök dizin (`MRVL/`)
-- **Teknolojiler:** Python, mem0ai, python-dotenv
-- **Durum:** Sanal ortam (`venv`) oluşturuldu, paketler kuruldu, örnek bir `main.py` dosyası ve `.env.example` hazırlandı.
-- **Nasıl Çalıştırılır?**
-  1. `.env.example` dosyasının adını `.env` olarak değiştirin ve içine `OPENAI_API_KEY` ekleyin.
-  2. Sanal ortamı aktif edip script'i çalıştırın:
-  ```powershell
-  .\venv\Scripts\Activate.ps1
-  python main.py
-  ```
+---
+## Sürüm Geçmişi (Changelog)
+
+### v1.0.0 (Güncel)
+- **Canlı Arama (Live Search)** özelliği eklendi. Haritadaki filmler artık isimlerine göre aranıp anında bulunabiliyor.
+- **Zaman Kodları (Timecodes)** eklendi. Kritik geçişler dakika/saniye olarak sağ alt panelde ve ipuçlarında gösteriliyor.
+- **Lejant Tasarımı** yenilendi ve tıklanabilirlik sorunları (z-index çakışmaları) giderildi.
+- Kullanılmayan eski Python/Mem0 dosyaları çalışma alanından temizlendi.
 
 ---
 *Not: İleride projeye devam ettiğinizde, bu README dosyasından yola çıkarak nerede kaldığımızı kolayca hatırlayabilirsiniz.*
