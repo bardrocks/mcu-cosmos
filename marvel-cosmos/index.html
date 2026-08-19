@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MCU Cosmos - Sinaps Haritası</title>
     
     <!-- SEO & Meta -->
@@ -68,11 +68,11 @@
         </aside>
         
         <!-- Sağ Üstte Arama -->
-        <div id="search-container" class="glass-panel" style="position: fixed; top: 20px; right: 20px; z-index: 100; display: flex; gap: 10px; padding: 10px 15px;">
-            <input type="text" id="search-input" placeholder="Film/Dizi Ara..." style="background: transparent; border: none; color: white; outline: none; font-family: 'Inter', sans-serif; font-size: 0.9rem; width: 200px;">
-            <button id="search-btn" style="background: rgba(0, 255, 200, 0.2); border: 1px solid rgba(0, 255, 200, 0.4); color: #00ffc8; border-radius: 4px; cursor: pointer; padding: 5px 10px; font-weight: bold;">Bul</button>
+        <div id="search-container" class="glass-panel">
+            <input type="text" id="search-input" placeholder="Film/Dizi Ara...">
+            <button id="search-btn">Bul</button>
         </div>
-        <div id="search-results" class="glass-panel hidden" style="position: fixed; top: 70px; right: 20px; z-index: 100; max-height: 300px; overflow-y: auto; width: 275px; padding: 10px;"></div>
+        <div id="search-results" class="glass-panel hidden"></div>
 
         <div id="node-info" class="glass-panel hidden">
             <!-- Tıklanan düğüm bilgileri buraya gelecek -->

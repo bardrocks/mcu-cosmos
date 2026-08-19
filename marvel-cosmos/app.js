@@ -310,6 +310,7 @@ legendCloseBtn.addEventListener('click', () => {
 
 function showNodeInfo(node) {
     nodeInfoPanel.classList.remove('hidden');
+    document.body.classList.add('modal-open');
     
     let phaseText = "";
     switch(node.group) {
@@ -391,6 +392,7 @@ function showNodeInfo(node) {
     if (infoCloseBtn) {
         infoCloseBtn.addEventListener('click', () => {
             nodeInfoPanel.classList.add('hidden');
+            document.body.classList.remove('modal-open');
         });
     }
 }
@@ -398,6 +400,7 @@ function showNodeInfo(node) {
 document.getElementById('ui-layer').addEventListener('click', (e) => {
     if(e.target.id === 'ui-layer') {
         nodeInfoPanel.classList.add('hidden');
+        document.body.classList.remove('modal-open');
     }
 });
 

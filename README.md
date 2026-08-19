@@ -18,7 +18,14 @@ MCU filmleri ve dizileri arasındaki tüm bağlantıları 3 boyutlu, interaktif 
 ---
 ## Sürüm Geçmişi (Changelog)
 
-### v1.1.0 (Güncel)
+### v1.2.0 (Güncel)
+- **Mobil Görünüm (Responsive) İyileştirmeleri:** 
+  - Mobilde haritadan uzaklaşamama (pinch-to-zoom) sorunu çözüldü.
+  - Arama çubuğunun mobil ekranlarda başlıkla üst üste binme sorunu CSS medya sorguları ile giderildi ve dinamikleştirildi.
+  - Detay paneli (modal) açıkken arkadaki bağlantı ipucunun (tooltip) yazılarla çakışması engellendi.
+  - Şeffaf panelin arka plan görünürlüğü (opacity) artırılarak arkadaki devasa 3D yazıların öne sızıp okunabilirliği bozması engellendi.
+
+### v1.1.0
 - **Stan Lee Nebula (Easter Egg)** eklendi. Evrenden uzaklaşıldığında uzayın derinliklerinde beliren ve yavaşça parlayan devasa, maskelenmiş bir Stan Lee bulutsusu oluşturuldu.
 - **Dinamik Arka Plan Yıldızları:** Arka plan yıldız sayısı (starField) 3000'den 12000'e çıkarılarak evrenin çok daha yoğun ve gerçekçi görünmesi sağlandı.
 
